@@ -1,6 +1,13 @@
-version: "3.9"
+version: "3.8"
 services:
+  mongodb:
+    container_name: mongodb
+    image: mongo:6.0.3
+    restart: always
+    ports:
+      - 27017:27017
   api:
+    container_name: api
     build:
       context: server
       dockerfile: .docker/api/Dockerfile
