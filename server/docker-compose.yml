@@ -1,0 +1,35 @@
+version: "3.8"
+services:
+  mongodb:
+    container_name: mongodb
+    image: mongo:4.4
+    restart: always
+    env_file:
+      - .env
+    environment:
+      MONGO_INITDB_DATABASE: admin
+      MONGO_INITDB_USERNAME: $MONGODB_USER
+      MONGO_INITDB_PASSWORD: $MONGODB_PASS
+      MONGO_INIT_USER_DB_NAME: $MONGODB_USER_DB_NAME
+      MONGO_INIT_DOCS_DB_NAME: $MONGODB_DOCS_DB_NAME
+    volumes:
+      - ./init-mongo.sh:/docker-entrypoint-initdb.d/init-mongo.sh:ro
+    ports:
+      - $MONGODB_PORT:27017
+  redis:
+    image: redis:7.0.5-alpine
+    container_name: redis
+    env_file:
+      - .env
+    ports:
+      - $REDIS_PORT:$REDIS_PORT
+  api:
+    container_name: api
+    build:
+      context: .
+      dockerfile: .docker/api/Dockerfile
+    command: npm run start:prod
+    env_file:
+      - .env
+    ports:
+      - $API_PORT:$API_PORT
