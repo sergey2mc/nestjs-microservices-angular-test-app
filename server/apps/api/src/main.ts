@@ -9,5 +9,6 @@ async function bootstrap() {
   const configService = app.get(ConfigService);
   const PORT = configService.get('API_PORT');
   await app.listen(PORT);
+  console.log('API started!');
 }
 bootstrap();

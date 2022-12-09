@@ -33,3 +33,32 @@ services:
       - .env
     ports:
       - $API_PORT:$API_PORT
+    depends_on:
+      - redis
+      - mongodb
+  user-microservice:
+    container_name: user-microservice
+    build:
+      context: .
+      dockerfile: .docker/user-microservice/Dockerfile
+    command: npm run start:user-microservice:prod
+    env_file:
+      - .env
+    ports:
+      - $USER_MICROSERVICE_PORT:$USER_MICROSERVICE_PORT
+    depends_on:
+      - redis
+      - mongodb
+  doc-microservice:
+    container_name: doc-microservice
+    build:
+      context: .
+      dockerfile: .docker/doc-microservice/Dockerfile
+    command: npm run start:doc-microservice:prod
+    env_file:
+      - .env
+    ports:
+      - $DOC_MICROSERVICE_PORT:$DOC_MICROSERVICE_PORT
+    depends_on:
+      - redis
+      - mongodb

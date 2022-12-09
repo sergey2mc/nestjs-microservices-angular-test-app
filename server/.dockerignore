@@ -1,5 +1,10 @@
 /.idea
+**/.idea
 /.git
+**/.git
 /var
+**/var
 /node_modules
+**/node_modules
 /dist
+**/dist
