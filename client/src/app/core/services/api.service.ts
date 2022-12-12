@@ -22,4 +22,10 @@ export class ApiService {
   createDoc(input: Doc): Observable<Doc> {
     return this.http.post<Doc>(`${environment.apiUrl}/doc`, input);
   }
+
+  getDocs(userId: string): Observable<Doc[]> {
+    return this.http.get<Doc[]>(`${environment.apiUrl}/doc`, {
+      params: { userId }
+    });
+  }
 }

@@ -1,0 +1,34 @@
+<h2>Users table</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Birth Date</th>
+      <th>Birth Country</th>
+      <th>Language</th>
+      <th>Telephone</th>
+      <th>Docs</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let user of users$ | async">
+      <td>{{ user._id }}</td>
+      <td>{{ user.name }}</td>
+      <td>{{ user.birthDate }}</td>
+      <td>{{ user.birthCountry }}</td>
+      <td>{{ user.language }}</td>
+      <td>{{ user.telephone }}</td>
+      <td>
+        <ng-template ngFor [ngForOf]="user.docs" let-doc>
+          <span>{{ doc.title }}</span><br>
+        </ng-template>
+      </td>
+      <td>
+        <button (click)="getUserDocs(user._id)">Get Docs</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
