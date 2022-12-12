@@ -5,7 +5,6 @@ export const UserSchema = new mongoose.Schema(
     name: {
       type: String,
       trim: true,
-      unique: true,
     },
     birthDate: {
       type: Date,
