@@ -16,6 +16,10 @@ export class DocService extends BaseService<DocDoc> {
     super(docModel);
   }
 
+  async getDocs(input: Partial<Doc>): Promise<Doc[]> {
+    return this.find(input).lean();
+  }
+
   async createNewDoc(input: CreateDocInput): Promise<Doc> {
     return this.create(input);
   }

@@ -11,8 +11,17 @@ export class DocController {
     private readonly docService: DocService
   ) {}
 
+  @MessagePattern({ cmd: Commands.GET_DOCS })
+  getDocs(
+    input: Partial<Doc>
+  ): Promise<Doc[]> {
+    return this.docService
+      .getDocs(input)
+      .catch(error => error); // Todo: add proper error handler
+  }
+
   @MessagePattern({ cmd: Commands.CREATE_DOC })
-  createUser(
+  createDoc(
     input: CreateDocInput
   ): Promise<Doc> {
     return this.docService

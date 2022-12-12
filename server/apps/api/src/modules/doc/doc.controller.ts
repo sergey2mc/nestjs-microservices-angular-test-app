@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 
 import { Observable } from 'rxjs';
 
@@ -10,6 +10,13 @@ export class DocController {
   constructor(
     private readonly docClientService: DocClientService,
   ) {}
+
+  @Get()
+  getByUserId(
+    @Query('userId') userId: string
+  ) {
+    return this.docClientService.requestGetDocs({ userId });
+  }
 
   @Post()
   create(

@@ -25,4 +25,15 @@ export class DocClientService {
       ) as Observable<InternalServerErrorException>) // Todo: add proper error handler
     );
   }
+
+  requestGetDocs(input: Partial<Doc>): Observable<Doc[] | InternalServerErrorException> {
+    return this.docClient.send<Doc[], Partial<Doc>>(
+      { cmd: Commands.GET_DOCS },
+      input
+    ).pipe(
+      catchError(error => of<InternalServerErrorException>(
+        new InternalServerErrorException(error)
+      ) as Observable<InternalServerErrorException>) // Todo: add proper error handler
+    );
+  }
 }
