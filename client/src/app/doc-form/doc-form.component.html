@@ -1,0 +1,21 @@
+<h2>Doc form</h2>
+
+<form [formGroup]="form" (ngSubmit)="onFormSubmit()">
+  <div class="form-row">
+    <label>
+      <span>User ID</span>
+      <input formControlName="userId">
+    </label>
+  </div>
+
+  <div class="form-row">
+    <label>
+      <span>Title</span>
+      <input formControlName="title">
+    </label>
+  </div>
+
+  <div class="form-footer">
+    <button type="submit">Save</button>
+  </div>
+</form>
