@@ -3,8 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 
 import { Model } from 'mongoose';
 import { BaseService } from '@libs/shared';
-
-import { UserDoc } from './models/user.model';
+import { UserDoc } from '@libs/shared/user';
 
 @Injectable()
 export class UserService extends BaseService<UserDoc> {
