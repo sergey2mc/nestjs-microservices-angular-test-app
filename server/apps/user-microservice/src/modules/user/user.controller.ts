@@ -13,8 +13,15 @@ export class UserController {
     private readonly userService: UserService
   ) {}
 
+  @MessagePattern({ cmd: Commands.GET_ALL_USERS })
+  getUsers(): Promise<User[]> {
+    return this.userService
+      .getAllUsers()
+      .catch(error => error); // Todo: add proper error handler
+  }
+
   @MessagePattern({ cmd: Commands.GET_USERS_BY_IDS })
-  getUser(
+  getUsersByIds(
     input: Types.ObjectId[]
   ): Promise<User[]> {
     return this.userService

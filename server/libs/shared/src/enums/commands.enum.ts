@@ -1,5 +1,6 @@
 export enum Commands {
   CREATE_USER = 'CREATE_USER',
+  GET_ALL_USERS = 'GET_ALL_USERS',
   GET_USERS_BY_IDS = 'GET_USERS_BY_IDS',
 
   CREATE_DOC = 'CREATE_DOC',

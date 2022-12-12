@@ -19,6 +19,10 @@ export class UserService extends BaseService<UserDoc> {
     super(userModel);
   }
 
+  async getAllUsers(): Promise<User[]> {
+    return this.find({}).lean();
+  }
+
   async getUsersByIds(input: Types.ObjectId[]): Promise<User[]> {
     return this.find({
       _id: { $in: input }

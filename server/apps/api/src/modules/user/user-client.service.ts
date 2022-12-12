@@ -14,6 +14,15 @@ export class UserClientService {
   ) {
   }
 
+  requestGetUsers(): Promise<User[]> {
+    return lastValueFrom(
+      this.userClient.send<User[], {}>(
+        { cmd: Commands.GET_ALL_USERS },
+        {}
+      )
+    );
+  }
+
   requestCreateUser(input: CreateUserInput): Promise<User> {
     return lastValueFrom(
       this.userClient.send<User, CreateUserInput>(

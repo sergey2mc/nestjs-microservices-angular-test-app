@@ -1,6 +1,7 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 
 import { Observable } from 'rxjs';
+
 import { CreateUserInput } from '@libs/shared/user';
 import { UserClientService } from './user-client.service';
 
@@ -10,8 +11,13 @@ export class UserController {
     private readonly userClientService: UserClientService
   ) {}
 
+  @Get()
+  getUsers() {
+    return this.userClientService.requestGetUsers();
+  }
+
   @Post()
-  create(
+  createUser(
     @Body() input: CreateUserInput,
   ) {
     return this.userClientService.requestCreateUser(input);
