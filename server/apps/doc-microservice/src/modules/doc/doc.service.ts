@@ -22,10 +22,19 @@ export class DocService extends BaseService<DocDoc> {
 
   async getDocs(input: Partial<Doc>): Promise<Doc[]> {
     const docs = await this.find(input).lean();
+    return this.attachLanguageTagsToTitle(docs);
+  }
+
+  async createNewDoc(input: CreateDocInput): Promise<Doc> {
+    const doc = await this.create(input);
+    const [docWithAttachedTags] = await this.attachLanguageTagsToTitle([doc.toObject()]);
+    return docWithAttachedTags;
+  }
+
+  private async attachLanguageTagsToTitle(docs: Doc[]): Promise<Doc[]> {
     const users: User[] = await this.userClientService.requestGetUsersByIds(
       docs.map(doc => new Types.ObjectId(doc.userId))
     );
-
     return docs.map(doc => {
       const user = users.find(user => new Types.ObjectId(doc.userId).equals(user._id));
       return {
@@ -35,9 +44,5 @@ export class DocService extends BaseService<DocDoc> {
           : doc.title,
       }
     });
-  }
-
-  async createNewDoc(input: CreateDocInput): Promise<Doc> {
-    return this.create(input);
   }
 }
