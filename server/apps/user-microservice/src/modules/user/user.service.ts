@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { ClientProxy } from '@nestjs/microservices';
 
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { lastValueFrom } from 'rxjs';
 
 import { BaseService, Events, Microservices } from '@libs/shared';
@@ -17,6 +17,12 @@ export class UserService extends BaseService<UserDoc> {
     private readonly docClient: ClientProxy,
   ) {
     super(userModel);
+  }
+
+  async getUsersByIds(input: Types.ObjectId[]): Promise<User[]> {
+    return this.find({
+      _id: { $in: input }
+    });
   }
 
   async createNewUser(input: CreateUserInput): Promise<User> {

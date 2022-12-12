@@ -4,6 +4,7 @@ import { ClientsModule } from '@nestjs/microservices';
 
 import { Microservices, RedisConfigService } from '@libs/shared';
 import { UserController } from './user.controller';
+import { UserClientService } from './user-client.service';
 
 @Module({
   imports: [
@@ -14,6 +15,8 @@ import { UserController } from './user.controller';
     }])
   ],
   controllers: [UserController],
+  providers: [UserClientService],
+  exports: [UserClientService],
 })
 export class UserModule {
 }

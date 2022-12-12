@@ -1,6 +1,8 @@
 import { Controller } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
 
+import { Types } from 'mongoose';
+
 import { Commands } from '@libs/shared';
 import { CreateUserInput, User } from '@libs/shared/user';
 import { UserService } from './user.service';
@@ -11,9 +13,16 @@ export class UserController {
     private readonly userService: UserService
   ) {}
 
-  @MessagePattern({
-    cmd: Commands.CREATE_USER
-  })
+  @MessagePattern({ cmd: Commands.GET_USERS_BY_IDS })
+  getUser(
+    input: Types.ObjectId[]
+  ): Promise<User[]> {
+    return this.userService
+      .getUsersByIds(input)
+      .catch(error => error); // Todo: add proper error handler
+  }
+
+  @MessagePattern({ cmd: Commands.CREATE_USER })
   createUser(
     input: CreateUserInput
   ): Promise<User> {
