@@ -1,8 +1,10 @@
 import { Global, Module } from '@nestjs/common';
 
+import { DocModule } from '../doc/doc.module';
 import { UserModule } from '../user/user.module';
 
 const modules = [
+  DocModule,
   UserModule,
 ];
 const providers = [];
