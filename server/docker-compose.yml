@@ -7,11 +7,9 @@ services:
     env_file:
       - .env
     environment:
-      MONGO_INITDB_DATABASE: admin
       MONGO_INITDB_USERNAME: $MONGODB_USER
       MONGO_INITDB_PASSWORD: $MONGODB_PASS
-      MONGO_INIT_USER_DB_NAME: $MONGODB_USER_DB_NAME
-      MONGO_INIT_DOCS_DB_NAME: $MONGODB_DOCS_DB_NAME
+      MONGO_INITDB_DATABASE: $MONGODB_DATABASE_NAME
     volumes:
       - ./init-mongo.sh:/docker-entrypoint-initdb.d/init-mongo.sh:ro
     ports:

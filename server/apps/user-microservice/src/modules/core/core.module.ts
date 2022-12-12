@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 
-import { MongooseConfigService } from './mongoose/mongoose-config.service';
+import { MongooseConfigService } from '@libs/shared';
 
 @Module({
   imports: [
