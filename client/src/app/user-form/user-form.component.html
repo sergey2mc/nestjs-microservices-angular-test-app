@@ -1,0 +1,42 @@
+<h2>User form</h2>
+
+<form [formGroup]="form" (ngSubmit)="onFormSubmit()">
+  <div class="form-row">
+    <label>
+      <span>Name</span>
+      <input formControlName="name">
+    </label>
+  </div>
+
+  <div class="form-row">
+    <label>
+      <span>Birth Date</span>
+      <input formControlName="birthDate">
+    </label>
+  </div>
+
+  <div class="form-row">
+    <label>
+      <span>Birth Country</span>
+      <input formControlName="birthCountry">
+    </label>
+  </div>
+
+  <div class="form-row">
+    <label>
+      <span>Language</span>
+      <input formControlName="language">
+    </label>
+  </div>
+
+  <div class="form-row">
+    <label>
+      <span>Telephone</span>
+      <input formControlName="telephone">
+    </label>
+  </div>
+
+  <div class="form-footer">
+    <button type="submit">Save</button>
+  </div>
+</form>
