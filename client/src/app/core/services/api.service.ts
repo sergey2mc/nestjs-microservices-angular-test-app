@@ -23,6 +23,10 @@ export class ApiService {
     return this.http.post<Doc>(`${environment.apiUrl}/doc`, input);
   }
 
+  getUsers(): Observable<User[]> {
+    return this.http.get<User[]>(`${environment.apiUrl}/user`);
+  }
+
   getDocs(userId: string): Observable<Doc[]> {
     return this.http.get<Doc[]>(`${environment.apiUrl}/doc`, {
       params: { userId }

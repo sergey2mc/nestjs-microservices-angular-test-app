@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 import { AppComponent } from './app.component';
 import { UserFormModule } from './user-form/user-form.module';
@@ -9,6 +10,7 @@ import { UsersTableModule } from './users-table/users-table.module';
 @NgModule({
   imports: [
     CoreModule,
+    CommonModule,
     UserFormModule,
     DocFormModule,
     UsersTableModule,

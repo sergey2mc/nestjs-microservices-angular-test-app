@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 
+import { Subject } from 'rxjs';
+
 import { User } from './core/models/user.model';
 import { Doc } from './core/models/doc.model';
 
@@ -9,29 +11,14 @@ import { Doc } from './core/models/doc.model';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  users: User[] = [];
+  userCreated$: Subject<User> = new Subject();
+  docCreated$: Subject<Doc> = new Subject();
 
   onUserCreated(user: User) {
-    this.users = [
-      ...this.users,
-      user,
-    ];
+    this.userCreated$.next(user);
   }
 
   onDocCreated(doc: Doc) {
-    const user = this.users.find(user => user._id === doc.userId);
-
-    if (user) {
-      this.users = this.users.map(user => {
-        return {
-          ...user,
-          docs: user._id === doc.userId
-            ? [...(user.docs || []), doc]
-            : user.docs
-        }
-      })
-    } else {
-      alert (`No user found for created doc - ${JSON.stringify(doc)}`);
-    }
+    this.docCreated$.next(doc);
   }
 }

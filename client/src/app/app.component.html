@@ -3,4 +3,7 @@
   <app-doc-form (docCreated)="onDocCreated($event)"></app-doc-form>
 </div>
 
-<app-users-table [users]="users"></app-users-table>
+<app-users-table
+  [userCreated]="userCreated$ | async"
+  [docCreated]="docCreated$ | async"
+></app-users-table>

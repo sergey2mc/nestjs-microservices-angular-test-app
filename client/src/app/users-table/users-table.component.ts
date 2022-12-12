@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 import { combineLatest, NEVER, Observable, ReplaySubject, Subject } from 'rxjs';
-import { catchError, filter, map, startWith, switchMap } from 'rxjs/operators';
+import { catchError, filter, map, scan, startWith, switchMap } from 'rxjs/operators';
 
 import { User } from '../core/models/user.model';
 import { ApiService } from '../core/services/api.service';
@@ -14,13 +14,20 @@ import { Doc } from '../core/models/doc.model';
 })
 export class UsersTableComponent implements OnInit {
   @Input()
-  set users(value: User[]) {
+  set userCreated(value: User) {
     if (value) {
-      this.usersSub$.next(value);
+      this.userCreated$.next(value);
+    }
+  }
+  @Input()
+  set docCreated(value: Doc) {
+    if (value) {
+      this.docCreated$.next(value);
     }
   }
 
-  usersSub$: ReplaySubject<User[]> = new ReplaySubject(1);
+  userCreated$: ReplaySubject<User> = new ReplaySubject(1);
+  docCreated$: ReplaySubject<Doc> = new ReplaySubject(1);
   getDocs$: Subject<string> = new Subject();
 
   users$: Observable<User[]>;
@@ -32,7 +39,10 @@ export class UsersTableComponent implements OnInit {
 
   ngOnInit() {
     this.users$ = combineLatest([
-      this.usersSub$,
+      this.userCreated$.pipe(
+        startWith(null),
+        switchMap(() => this.apiService.getUsers())
+      ),
       this.getDocs$.pipe(
         filter(userId => !!userId),
         switchMap(userId => this.apiService.getDocs(userId).pipe(
@@ -45,8 +55,11 @@ export class UsersTableComponent implements OnInit {
         startWith({} as { userId: string; docs: Doc[] })
       ),
     ]).pipe(
-      map(([users, { docs, userId }]) => {
-        return users.map(user => {
+      scan((acc, [users, { docs, userId }]) => {
+        if (!acc) {
+          acc = [...users];
+        }
+        return acc.map(user => {
           return {
             ...user,
             docs: user._id === userId
@@ -54,7 +67,7 @@ export class UsersTableComponent implements OnInit {
               : user.docs || []
           };
         });
-      })
+      }, null)
     );
   }
 
