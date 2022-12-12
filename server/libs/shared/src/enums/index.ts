@@ -1,2 +1,3 @@
-export * from './microservices.enum';
 export * from './commands.enum';
+export * from './events.enum';
+export * from './microservices.enum';

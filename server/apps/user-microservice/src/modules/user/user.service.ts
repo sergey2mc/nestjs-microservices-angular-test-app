@@ -1,16 +1,32 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import { ClientProxy } from '@nestjs/microservices';
 
 import { Model } from 'mongoose';
-import { BaseService } from '@libs/shared';
-import { UserDoc } from '@libs/shared/user';
+import { lastValueFrom } from 'rxjs';
+
+import { BaseService, Events, Microservices } from '@libs/shared';
+import { CreateUserInput, User, UserDoc } from '@libs/shared/user';
 
 @Injectable()
 export class UserService extends BaseService<UserDoc> {
   constructor(
     @InjectModel('User')
     private readonly userModel: Model<UserDoc>,
+    @Inject(Microservices.DOC)
+    private readonly docClient: ClientProxy,
   ) {
     super(userModel);
+  }
+
+  async createNewUser(input: CreateUserInput): Promise<User> {
+    const user = await this.create(input);
+
+    // Emit USER_CREATED event to Doc microservice
+    await lastValueFrom(
+      this.docClient.emit<User>(Events.USER_CREATED, user)
+    );
+
+    return user;
   }
 }

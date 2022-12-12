@@ -18,7 +18,7 @@ export class UserController {
     input: CreateUserInput
   ): Promise<User> {
     return this.userService
-      .create(input)
+      .createNewUser(input)
       .catch(error => error); // Todo: add proper error handler
   }
 }

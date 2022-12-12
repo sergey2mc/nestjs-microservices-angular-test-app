@@ -11,12 +11,12 @@ import { CreateUserInput, User } from '@libs/shared/user';
 export class UserClientService {
   constructor(
     @Inject(Microservices.USER)
-    private readonly client: ClientProxy
+    private readonly userClient: ClientProxy
   ) {
   }
 
   requestCreateUser(input: CreateUserInput): Observable<User | InternalServerErrorException> {
-    return this.client.send<User, CreateUserInput>(
+    return this.userClient.send<User, CreateUserInput>(
       { cmd: Commands.CREATE_USER },
       input
     ).pipe(
