@@ -18,15 +18,19 @@ cp .env.example .env
 ```
 docker-compose up -d
 ```
-Public API will be available on `http://localhost:4000`.
+By default the public API will be available on `http://localhost:3000`.
 
 ### Run frontend:
 **1)** Enter `./client` directory
 ```
 cd client
 ```
-**2)** Setup docker container
+**2)** Copy `./.env.exaple` file data to `./.env`
+```
+cp .env.example .env
+```
+**3)** Setup docker container
 ```
 docker-compose up -d
 ```
-Client app will be available on [`http://localhost:9000`](http://localhost:9000).
+By default the client app will be available on [`http://localhost:9000`](http://localhost:9000).
