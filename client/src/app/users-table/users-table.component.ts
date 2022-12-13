@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { combineLatest, NEVER, Observable, ReplaySubject, Subject } from 'rxjs';
+import { uniqBy as _uniqBy } from 'lodash';
+import { combineLatest, merge, NEVER, Observable, ReplaySubject, Subject } from 'rxjs';
 import { catchError, filter, map, scan, startWith, switchMap } from 'rxjs/operators';
 
 import { User } from '../core/models/user.model';
@@ -43,7 +44,12 @@ export class UsersTableComponent implements OnInit {
         startWith(null),
         switchMap(() => this.apiService.getUsers())
       ),
-      this.getDocs$.pipe(
+      merge(
+        this.getDocs$,
+        this.docCreated$.pipe(
+          map(doc => doc.userId)
+        )
+      ).pipe(
         filter(userId => !!userId),
         switchMap(userId => this.apiService.getDocs(userId).pipe(
           map(docs => ({ userId, docs })),
@@ -56,18 +62,16 @@ export class UsersTableComponent implements OnInit {
       ),
     ]).pipe(
       scan((acc, [users, { docs, userId }]) => {
-        if (!acc) {
-          acc = [...users];
-        }
-        return acc.map(user => {
+        return users.map(user => {
+          const accUser = acc.find(u => u._id === user._id);
           return {
             ...user,
             docs: user._id === userId
-              ? [...(user.docs || []), ...docs]
-              : user.docs || []
+              ? _uniqBy([...(accUser?.docs || []), ...docs], '_id')
+              : accUser?.docs || []
           };
         });
-      }, null)
+      }, [])
     );
   }
 
