@@ -33,4 +33,4 @@ cp .env.example .env
 ```
 docker-compose up -d
 ```
-By default the client app will be available on [`http://localhost:9000`](http://localhost:9000).
+By default the client app will be available on [`http://localhost:4000`](http://localhost:4000).
